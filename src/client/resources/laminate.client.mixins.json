@@ -1,0 +1,9 @@
+{ "required": true
+, "package": "io.github.pixelatedvolume.laminate.mixin"
+, "compatibilityLevel": "JAVA_21"
+, "client"
+: [ "ModelManagerMixin"
+  , "MultiPackResourceManagerAccessor"
+  ]
+, "injectors": { "defaultRequire": 1 }
+}

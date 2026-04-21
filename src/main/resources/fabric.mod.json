@@ -1,0 +1,16 @@
+{ "schemaVersion": 1
+, "id": "laminate"
+, "version": "${version}"
+, "name": "Laminate Item Definitions"
+, "description": "Lets item definitions fall back to lower-priority packs"
+, "authors": [ "PixelatedVolume" ]
+, "contact": { "email": "pixelatedvolume@proton.me" }
+, "license": "BSD-3-Clause"
+, "environment": "client"
+, "mixins": [ "laminate.client.mixins.json" ]
+, "depends"
+: { "fabricloader": ">=0.19.2"
+  , "minecraft": "~1.21.11"
+  , "java": ">=21"
+  }
+}
