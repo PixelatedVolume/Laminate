@@ -31,7 +31,6 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:${loader_version}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
-    
 }
 
 processResources {
@@ -40,13 +39,13 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand("version": mod_version)
     }
+    inputs.property("archivesName", project.base.archivesName)
     from(rootProject.file("LICENSE")) {
         rename { "${it}_${inputs.properties.archivesName}" }
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.compilerArgs << "-Xdiags:verbose"
     it.options.release = 21
 }
 
@@ -54,12 +53,4 @@ java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
-}
-
-jar {
-    inputs.property("projectName", project.name)
-
-    from("LICENSE") {
-        rename { "${it}_${project.name}"}
-    }
 }
