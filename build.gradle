@@ -1,5 +1,7 @@
 plugins {
-    id('fabric-loom') version("${loom_version}")    
+    id('fabric-loom') version("${loom_version}")
+    id('com.modrinth.minotaur') version('2.+')
+    id('com.github.breadmoirai.github-release') version('2.4.1')
 }
 
 def base_name          = project.archives_base_name
@@ -53,4 +55,31 @@ java {
     withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+def releaseTitle = "Laminate v${mod_version}"
+def changeText = rootProject.file('CHANGES.md').with { exists() ? text : "" }
+modrinth {
+    token = project.findProperty('MODRINTH_TOKEN')
+    projectId = 'laminate'
+    versionNumber = mod_version
+    versionName = "${releaseTitle} for ${mc_versions} Fabric"
+    changelog = changeText
+    uploadFile = remapJar
+    additionalFiles = [ sourcesJar ]
+    syncBodyFrom = rootProject.file('README.md').text
+}
+
+tasks.githubRelease.dependsOn(tasks.build)
+githubRelease {
+    token = project.findProperty('GITHUB_TOKEN')
+    owner = "PixelatedVolume"
+    targetCommitish = "master"
+    repo = "Laminate"
+    tagName = "v${mod_version}"
+    releaseName = releaseTitle
+    body = changeText
+    releaseAssets = fileTree('build/libs')
+    draft = false
+    allowUploadToExisting = true
 }
